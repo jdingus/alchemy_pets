@@ -5,6 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Table
+from sqlalchemy import UniqueConstraint
 
 import logging
 log = logging.getLogger(__name__)
@@ -127,10 +128,10 @@ class Pet(Base):
     # mapped relationship, pet_person_table must already be in scope!
     people = relationship('Person', secondary=pet_person_table, backref='pets')
 
-    def return_nicknames(self, pet):
+    def return_nicknames(self):
         nick_list = []
         for nickname in self.people_nicknames:
-            if nickname.pet == pet:
+            if nickname.pet == self:
                 nick_list.append(nickname)
         return nick_list
         
@@ -194,7 +195,7 @@ class NicknameAssociation(Base):
 
     def __repr__(self):
         return "NicknameAssociation( {} : {} : {} )".format(self.pet.name, 
-            self.person.full_name, self.nickname)
+            self.person.first_name, self.nickname)
 
 
 ################################################################################
@@ -297,6 +298,13 @@ if __name__ == "__main__":
 
     print drools.breeds
     print goldie.breed.traits
+
+    # Add some pet nicknames to database
+    tom.pet_nicknames.append(NicknameAssociation(pet=spot, nickname='Fido'))
+    sue.pet_nicknames.append(NicknameAssociation(pet=spot, nickname='Scratch'))
+
+    print spot.return_nicknames()
+    # goldie.return_nicknames()
 
     #################################################
 
