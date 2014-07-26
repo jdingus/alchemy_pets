@@ -127,6 +127,13 @@ class Pet(Base):
     # mapped relationship, pet_person_table must already be in scope!
     people = relationship('Person', secondary=pet_person_table, backref='pets')
 
+    def return_nicknames(self, pet):
+        nick_list = []
+        for nickname in self.people_nicknames:
+            if nickname.pet == pet:
+                nick_list.append(nickname)
+        return nick_list
+        
     def __repr__(self):
         return "Pet:{}".format(self.name) 
 
@@ -166,6 +173,28 @@ class Person(Base):
 
     def __repr__(self):
         return "Person: {} {}".format(self.first_name, self.last_name) 
+
+class NicknameAssociation(Base):
+    __tablename__ = 'nickname_association'
+
+    # Here we use __table_args__ along with UniqueConstraint
+    __table_args__ = (
+            UniqueConstraint('pet_id', 'person_id', name='nickname_uniqueness_constraint'),
+        )
+    id = Column(Integer, primary_key=True)
+
+    pet_id = Column(Integer, ForeignKey('pet.id'), nullable=False)
+    person_id = Column(Integer, ForeignKey('person.id'), nullable=False)
+
+    # a string for capturing nickname
+    nickname = Column(String)
+
+    person = relationship('Person', backref=backref('pet_nicknames') )
+    pet = relationship('Pet', backref=backref('people_nicknames'))
+
+    def __repr__(self):
+        return "NicknameAssociation( {} : {} : {} )".format(self.pet.name, 
+            self.person.full_name, self.nickname)
 
 
 ################################################################################
