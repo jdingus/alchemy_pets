@@ -58,14 +58,39 @@ class Breed(Base):
     name = Column(String, nullable=False)
     species_id = Column(Integer, ForeignKey('species.id'), nullable=False )            
     pets = relationship('Pet', backref="breed")
+    # backref traits from BreedTrait
     # methods
     def __repr__(self):
         return "{}: {}".format(self.name, self.species) 
 
 
 #########################################################
-#   Add your code for BreedTraits object here			#
+#   Add your code for BreedTrait object here			#
 #########################################################
+
+# our many-to-many breed_traits association table, in our domain model *before* BreedTrait class 
+breed_traits_table = Table('breed_traits', Base.metadata,
+    Column('breed_id', Integer, ForeignKey('breed.id'), nullable=False),
+    Column('traits_id', Integer, ForeignKey('breedtraits.id'), nullable=False)
+)
+
+class BreedTrait(Base):
+    """
+    domain model class for a Breed, which has a many-to-many relation with Breed
+    """
+    __tablename__ = 'breedtraits'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    # breed_id = Column(Integer, ForeignKey('breed.id'), nullable=False ) 
+    # traits_id = Column(Integer, ForeignKey('breedtraits.id'), nullable=False ) 
+    
+    # no foreign key here, it's in the many-to-many table        
+    # mapped relationship, breed_traits_table must already be in scope!
+    breeds = relationship('Breed', secondary=breed_traits_table, backref='traits')
+
+    def __repr__(self):
+        return "BreedTrait:{}".format(self.name) 
+
 
 class Shelter(Base):
     __tablename__ = 'shelter'
@@ -224,11 +249,27 @@ if __name__ == "__main__":
     #################################################
     #  Now it's up to you to complete this script ! #
     #################################################
-    
-    # Add your code that adds breed traits and links breeds with traits
-    # here.
+    protective = BreedTrait(name='Protective')    
+    timid = BreedTrait(name='Timid')    
+    intelligent = BreedTrait(name='Intelligent')    
+    drools = BreedTrait(name='Drools')    
+
+    spot.breed.traits.append(protective)
+    spot.breed.traits.append(intelligent)
+    goldie.breed.traits.append(drools)
+    goldie.breed.traits.append(timid)
+
+    assert drools in goldie.breed.traits
+    assert spot.breed not in drools.breeds
+
+    log.info("Adding spot and goldie traits to session and committing changes to DB")
+    db_session.add_all([spot, goldie])
+    db_session.commit()
+
+    print drools.breeds
+    print goldie.breed.traits
 
     #################################################
-    
+
     db_session.close()
     log.info("all done!")
