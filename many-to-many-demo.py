@@ -6,6 +6,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Table
 from sqlalchemy import UniqueConstraint
+import pdb
 
 import logging
 log = logging.getLogger(__name__)
@@ -40,7 +41,7 @@ class Species(Base):
     # database fields
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    breeds = relationship('Breed', backref="species")
+    breeds = relationship('Breed', backref="species", cascade="all, delete-orphan")
 
     # methods
     def __repr__(self):
@@ -124,9 +125,21 @@ class Pet(Base):
     breed_id = Column(Integer, ForeignKey('breed.id'), nullable=False ) 
     shelter_id = Column(Integer, ForeignKey('shelter.id') ) 
     
+    parent1_id = Column(Integer, ForeignKey("pet.id"), nullable=True )
+    parent1 = relationship("Pet", remote_side="Pet.id", backref=backref("children"),
+        primaryjoin=('pet.c.id==pet.c.parent1_id'),)
+
+    # parent2_id = Column(Integer, ForeignKey(id), nullable=True ) 
+    # parent2 = relationship("Pet", remote_side="Pet.id", backref=backref("children"),
+    #     primaryjoin=('pet.c.id==pet.c.parent2_id'),)
+
+    # Many-to-One relationship
+    
+
+
     # no foreign key here, it's in the many-to-many table        
     # mapped relationship, pet_person_table must already be in scope!
-    people = relationship('Person', secondary=pet_person_table, backref='pets')
+    people = relationship('Person', secondary=pet_person_table, backref='pets', cascade="all, delete-orphan", single_parent=True)
 
     def return_nicknames(self):
         nick_list = []
@@ -269,7 +282,7 @@ if __name__ == "__main__":
                 ) 
 
     log.info("Adding Goldie and Spot to session and committing changes to DB")
-    db_session.add_all([spot, goldie])
+    db_session.add_all([spot, tom, goldie])
     db_session.commit()
 
     assert tom in spot.people
@@ -300,7 +313,7 @@ if __name__ == "__main__":
     print goldie.breed.traits
 
     # Add some pet nicknames to database
-    tom.pet_nicknames.append(NicknameAssociation(pet=spot, nickname='Fido'))
+    # tom.pet_nicknames.append(NicknameAssociation(pet=spot, nickname='Fido'))
     sue.pet_nicknames.append(NicknameAssociation(pet=spot, nickname='Scratch'))
 
     print spot.return_nicknames()
@@ -309,4 +322,5 @@ if __name__ == "__main__":
     #################################################
 
     db_session.close()
+    pdb.set_trace()
     log.info("all done!")
