@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Alchemy pets by jdingus</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Alchemy pets</h1>
+        <h2>Tutorial on SQL Alchemy</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/jdingus/alchemy_pets/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/jdingus/alchemy_pets/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/jdingus/alchemy_pets" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h2>
+<a name="python-web-development-on-chromebooks" class="anchor" href="#python-web-development-on-chromebooks"><span class="octicon octicon-link"></span></a>Python web development on chromebooks?</h2>
+
+<h2>
+<a name="its-not-what-you-think" class="anchor" href="#its-not-what-you-think"><span class="octicon octicon-link"></span></a>It’s not what you think…</h2>
+
+<p>I began a journey several months ago to see what it would take to be a web developer. After much research I decided upon <a href="http://www.thinkful.com">Thinkful</a> which I highly recommend.  I quickly found out that I needed a new laptop to be able to work on assignments over my lunch break and money was tight.  An uncommon solution emerged. The <a href="http://www.amazon.com/gp/product/B00FGOTBQO/ref=pd_lpo_sbs_dp_ss_2?pf_rd_p=1535523722&amp;pf_rd_s=lpo-top-stripe-1&amp;pf_rd_t=201&amp;pf_rd_i=B00FGOTC0Y&amp;pf_rd_m=ATVPDKIKX0DER&amp;pf_rd_r=1FW8J9AKAJHWT3DRNEX8">HP14</a> chromebook.  With a couple hours and $350 the HP14 becomes a python web development machine which rivals laptops 3 times it’s cost.</p>
+
+<p>All development will be done natively, there’s been much talk about chromebooks and web app IDE’s.  I found out quickly that this did not work well for me.  It’s really hard to beat a native environment configured with all professional level tools that other developers will be using.  Your mileage may vary of course.</p>
+
+<p>Were going to be doing a side installation of Linux beside the current Chrome OS using <a href="http://chrubuntu.blogspot.ca/">ChrUbuntu</a>.  We will be able to hot switch between the two using some simple keyboard shortcuts.  Some people may have been turned off by mention of Linux.  Let me tell you, Elementary OS (eOS) is an awesome distro of Linux which I think will change the way you think of it.  Check it out <a href="http://elementaryos.org/">here</a> and <a href="http://www.macworld.com/article/2048021/if-i-had-to-leave-the-mac-id-switch-to-elementary-os.html">here </a>. </p>
+
+<p>I am a new Linux user so I am simply compiling everything I came across on the internet.  I can vouch that everything works if followed per instruction but there may be a better way.  Just let me know in the comments. </p>
+
+<p><em><strong>Let’s get started.</strong></em></p>
+
+<hr><h3>
+<a name="install-eos" class="anchor" href="#install-eos"><span class="octicon octicon-link"></span></a>Install eOS</h3>
+
+<blockquote>
+<p>Follow this excellent <a href="https://www.google.com/url?q=https%3A%2F%2Frealpython.com%2Fblog%2Fpython%2Fsetting-up-sublime-text-3-for-full-stack-python-development%2F&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNH6XrV734vpm7oZlm7_0jtYKcYWdg">guide</a> from <a href="http://www.google.com/url?q=http%3A%2F%2Fjeanlouisnguyen.blogspot.com%2F2014%2F01%2Fguide-how-to-install-elementary-os-on.html&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNGBIO8uLqFyJKrWw9aLI21hjyCiGw">+Jean-Louis Nguyen</a> which walks you thru every step, no knowledge of command line or linux required.  Second time around this took me an hour to complete.  Will vary based on speed of your internet connection.</p>
+</blockquote>
+
+<hr><h3>
+<a name="configure-dev-environment" class="anchor" href="#configure-dev-environment"><span class="octicon octicon-link"></span></a>Configure Dev Environment</h3>
+
+<blockquote>
+<p>Now that we have an eOS environment, let’s install and configure all the software we will need for web development.  Before we begin, review some <a href="http://www.thisiswherewejumptotipsatbottom.com">tips</a> regarding using eOS on the chromebook.  </p>
+</blockquote>
+
+<h4>
+<a name="good-ok-lets-go" class="anchor" href="#good-ok-lets-go"><span class="octicon octicon-link"></span></a><strong>Good? Ok let’s go.</strong>
+</h4>
+
+<hr><ul>
+<li><h4>
+<a name="launch-eos" class="anchor" href="#launch-eos"><span class="octicon octicon-link"></span></a>Launch eOS</h4></li>
+<li><h4>
+<a name="ctrlaltt-open-command-terminal" class="anchor" href="#ctrlaltt-open-command-terminal"><span class="octicon octicon-link"></span></a>CTRL+ALT+T (Open command terminal)</h4></li>
+</ul><div class="highlight highlight-sh"><pre>sudo apt-get install firefox
+</pre></div>
+
+<p><em>Open up firefox to paste the following commands into the terminal</em></p>
+
+<hr><p><strong>Web Browser - 64 bit Chrome</strong></p>
+
+<div class="highlight highlight-sh"><pre><span class="nb">cd</span> ~/Downloads
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo gdebi google-chrome-stable_current_amd64.deb
+y
+</pre></div>
+
+<hr><p><strong>Video player - VLC Player</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install vlc
+</pre></div>
+
+<hr><p><strong>File Compression</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install unace rar unrar p7zip-rar p7zip
+</pre></div>
+
+<hr><p><strong>File Backup - Dropbox</strong></p>
+
+<p><a href="https://www.dropbox.com/install?os=lnx">Download Ubuntu 64bit version</a></p>
+
+<div class="highlight highlight-sh"><pre>sudo gdebi dropbox_1.6.2_amd64.deb
+</pre></div>
+
+<p>Start dropbox from Applications menu
+Follow prompts</p>
+
+<hr><p><strong>Office Compatible - Libre Office</strong>  (<em>big install</em>)</p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install libreoffice
+</pre></div>
+
+<hr><p><strong>Graphic Editor - Gimp</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install gimp
+</pre></div>
+
+<hr><p><strong>File cleanup - Bleachbit</strong> (CCleaner for Ubuntu)</p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install bleachbit
+</pre></div>
+
+<hr><p><strong>Install SublimeText 3</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo add-apt-repository ppa:webupd8team/sublime-text-3
+sudo apt-get update
+sudo apt-get install sublime-text-installer
+</pre></div>
+
+<hr><p><strong>Configure Sublime for Web development</strong></p>
+
+<blockquote>
+<p>Follow this excellent <a href="https://www.google.com/url?q=https%3A%2F%2Frealpython.com%2Fblog%2Fpython%2Fsetting-up-sublime-text-3-for-full-stack-python-development%2F&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNH6XrV734vpm7oZlm7_0jtYKcYWdg">guide</a> from Michael Herman from <a href="http://www.realpython.com">RealPython.com</a></p>
+
+<ul>
+<li>####Use CTRL where CMD is referenced ie. (CTRL+SHFT+P)</li>
+<li>####Jump right to Install Package Control</li>
+</ul>
+</blockquote>
+
+<hr><p>**Install Git **</p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install git-core
+</pre></div>
+
+<p><strong>Install Sqlite3</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get install sqlite3 libsqlite3-dev
+</pre></div>
+
+<p><strong>Install ez_setup</strong></p>
+
+<div class="highlight highlight-sh"><pre>wget https://bootstrap.pypa.io/ez_setup.py -O - <span class="p">|</span> sudo python
+</pre></div>
+
+<p><strong>Install pip</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo easy_install pip
+Install virtualenv
+sudo pip install virtualenv
+</pre></div>
+
+<hr><p><strong>Dependencies for SQLAlchemy</strong></p>
+
+<div class="highlight highlight-sh"><pre>sudo apt-get build-dep python-psycopg2
+</pre></div>
+
+<hr><p><strong>Heroku Setup</strong></p>
+
+<div class="highlight highlight-sh"><pre>wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh <span class="p">|</span> sh
+</pre></div>
+
+<p>Make sure your heroku profile is setup up.</p>
+
+<div class="highlight highlight-sh"><pre>heroku login
+
+your email 
+your password 
+
+heroku keys:add
+y
+
+mkdir ~/Dropbox/projects
+<span class="nb">cd</span> ~/Dropbox/projects
+git clone https://github.com/heroku/python-getting-started.git
+<span class="nb">cd </span>python-getting-started
+virtualenv --no-site-packages env
+<span class="nb">source </span>env/bin/activate
+pip install -r requirements.txt --allow-all-external
+foreman start
+</pre></div>
+
+<p>Click on hyperlink in terminal window to view local website</p>
+
+<p>"CTRL+C" to kill foreman process</p>
+
+<hr><p><strong>Deploy to Heroku</strong></p>
+
+<div class="highlight highlight-sh"><pre>heroku create
+git push heroku master
+yes
+heroku open
+</pre></div>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
